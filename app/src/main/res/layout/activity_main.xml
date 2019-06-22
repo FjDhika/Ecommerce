@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/app_slogan"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="ini slogan"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold|italic"
+        />
+
+    <Button
+        android:id="@+id/signin_btn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_slogan"
+        android:layout_marginTop="90dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/buttons"
+        android:textAlignment="center"
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:text="Login"
+        />
+
+    <Button
+        android:id="@+id/signup_btn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signin_btn"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/buttons"
+        android:textAlignment="center"
+        android:padding="20dp"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:text="No Account? SignUp Here!"
+        />
+
+
+</RelativeLayout>
