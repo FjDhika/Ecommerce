@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,68 +8,54 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TableLayout
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/Name"
+            style="@style/edtregis"
+            android:layout_marginTop="50dp"
+            android:hint="Nama" />
+
+        <EditText
+            android:id="@+id/username"
+            style="@style/edtregis"
+            android:hint="Username" />
+
+        <EditText
+            android:id="@+id/pass"
+            style="@style/edtregis"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/confirmpass"
+            style="@style/edtregis"
+            android:hint="Confirm Password"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/Email"
+            style="@style/edtregis"
+            android:hint="Email" />
+
+        <EditText
+            android:id="@+id/notelp"
+            style="@style/edtregis"
+            android:hint="No Telp" />
+
+        <EditText
+            style="@style/edtregis"
+            android:id="@+id/alamat"
+            android:hint="Alamat"/>
+
+        <Button
+            android:id="@+id/createaccount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
-
-                <EditText
-                    android:id="@+id/Name"
-                    style="@style/edtregis"
-                    android:layout_marginTop="50dp"
-                    android:hint="Nama"/>
-
-            </TableRow>
-
-            <TableRow>
-
-                <EditText
-                    style="@style/edtregis"
-                    android:id="@+id/username"
-                    android:hint="Username"/>
-
-            </TableRow>
-
-            <TableRow>
-
-                <EditText
-                    style="@style/edtregis"
-                    android:id="@+id/pass"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    />
-
-            </TableRow>
-
-            <TableRow>
-
-                <EditText
-                    style="@style/edtregis"
-                    android:id="@+id/confirmpass"
-                    android:hint="Confirm Password"
-                    android:inputType="textPassword"/>
-
-            </TableRow>
-
-            <TableRow>
-
-                <EditText
-                    style="@style/edtregis"
-                    android:id="@+id/Email"
-                    android:hint="Email"/>
-
-            </TableRow>
-
-        </TableLayout>
+            android:text="Create Account"
+            android:backgroundTint="#00d0ff"
+            android:layout_marginTop="30dp"/>
 
     </LinearLayout>
 
