@@ -25,7 +25,7 @@ import org.xml.sax.ErrorHandler;
 
 import java.util.jar.Attributes;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity {
 
     private Button LoginBtn,SignUpBtn;
 
@@ -35,17 +35,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         LoginBtn =  (Button) findViewById(R.id.signin_btn);
-        Button SignUpBtn = findViewById(R.id.signup_btn);
-        SignUpBtn.setOnClickListener(this);
-    }
+        SignUpBtn = (Button) findViewById(R.id.signup_btn);
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+        LoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
 
-            case R.id.signup_btn:
-                Intent movetoregis = new Intent(MainActivity.this, Register.class);
-                startActivity(movetoregis);
-        }
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        SignUpBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+
+            public void onClick(View view){
+                Intent intent = new Intent(MainActivity.this, Register.class);
+                startActivity(intent);
+            }
+        });
     }
 }
