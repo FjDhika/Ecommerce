@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         if(saveLogin){
             PhoneNumber.setText(loginPreferences.getString("PhoneNumber",""));
             Password.setText(loginPreferences.getString("Password",""));
+            rememberMe.setChecked(true);
         }
         LoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
