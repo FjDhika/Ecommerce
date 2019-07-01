@@ -1,9 +1,5 @@
 package com.fa.ecommerce;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,13 +32,13 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        InputName = (EditText) findViewById(R.id.Name);
-        InputPass = (EditText) findViewById(R.id.pass);
-        CP = (EditText) findViewById(R.id.confirmpass);
-        InputEmail = (EditText) findViewById(R.id.Email);
-        InputLocation = (EditText) findViewById(R.id.alamat);
-        InputUN = (EditText) findViewById(R.id.username);
-        InputPhone = (EditText) findViewById(R.id.notelp);
+        InputName = findViewById(R.id.Name);
+        InputPass = findViewById(R.id.pass);
+        CP = findViewById(R.id.confirmpass);
+        InputEmail = findViewById(R.id.Email);
+        InputLocation = findViewById(R.id.alamat);
+        InputUN = findViewById(R.id.username);
+        InputPhone = findViewById(R.id.notelp);
         pd = new ProgressDialog(this);
         Button CA = findViewById(R.id.createaccount);
         CA.setOnClickListener(this);
@@ -48,11 +47,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.createaccount:
-                createaccount();
-
+        if (v.getId() == R.id.createaccount) {
+            createaccount();
         }
     }
 
@@ -67,7 +63,19 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         String alamat = InputLocation.getText().toString();
 
         if (TextUtils.isEmpty(nama)) {
-            Toast.makeText(this, "Tolong Masukkan Nama ...", Toast.LENGTH_SHORT);
+            InputName.setError("Tolong Masukkan Nama");
+        } else if (TextUtils.isEmpty(pass)) {
+            InputName.setError("Tolong Masukkan Password");
+        } else if (TextUtils.isEmpty(confpass)) {
+            InputName.setError("Tolong Konfirmasi Password");
+        } else if (TextUtils.isEmpty(UN)) {
+            InputName.setError("Tolong Masukkan Username");
+        } else if (TextUtils.isEmpty(Email)) {
+            InputName.setError("Tolong Masukkan Email");
+        } else if (TextUtils.isEmpty(telp)) {
+            InputName.setError("Tolong Masukkan No Telp");
+        } else if (TextUtils.isEmpty(alamat)) {
+            InputName.setError("Tolong Masukkan Alamat");
         } else {
             pd.setTitle("Create Account");
             pd.setMessage("Creating Account ...");
@@ -86,16 +94,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         Rootref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.child("user").child(telp).exists()) {
+                if (!dataSnapshot.child("users").child(telp).exists() && pass.equals(confpass) && !dataSnapshot.child("users").child(Email).exists() && !dataSnapshot.child("users").child(UN).exists()) {
                     HashMap<String, Object> Userdatamap = new HashMap<>();
                     Userdatamap.put("nama", nama);
                     Userdatamap.put("password", pass);
-                    Userdatamap.put("confpas", confpass);
                     Userdatamap.put("username", UN);
                     Userdatamap.put("email", Email);
                     Userdatamap.put("alamat", alamat);
                     Userdatamap.put("telepon", telp);
-                    Rootref.child("Users").child(telp).updateChildren(Userdatamap)
+                    Rootref.child("users").child(UN).updateChildren(Userdatamap)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
@@ -106,9 +113,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
                                         Intent movetoregis = new Intent(Register.this, LoginActivity.class);
                                         startActivity(movetoregis);
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         pd.dismiss();
                                         Toast.makeText(Register.this, "Commit Failed Try Again And Check Your Network", Toast.LENGTH_SHORT).show();
                                     }
@@ -116,12 +121,29 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                 }
                             });
                 } else {
-                    Toast.makeText(Register.this, "This" + telp + "Already Exist", Toast.LENGTH_SHORT).show();
-                    pd.dismiss();
-                    Toast.makeText(Register.this, "Please Use Another Phone Number", Toast.LENGTH_SHORT).show();
 
-                    Intent movetoregis = new Intent(Register.this, MainActivity.class);
-                    startActivity(movetoregis);
+                    if (dataSnapshot.child("users").child(telp).exists()) {
+
+                        Toast.makeText(Register.this, "This " + telp + " Already Exist", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                        Toast.makeText(Register.this, "Please Use Another Phone Number", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (!pass.equals(confpass)) {
+                        Toast.makeText(Register.this, "Password didn't match ...", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                    }
+
+                    if (dataSnapshot.child("users").child(UN).exists()) {
+                        Toast.makeText(Register.this, "Username Already Exist ...", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                    }
+
+                    if (dataSnapshot.child("users").child(Email).exists()) {
+                        Toast.makeText(Register.this, "Email Already Exist ...", Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                    }
+
                 }
             }
 
