@@ -20,9 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login_applogo"
         android:layout_centerHorizontal="true"
-        android:hint="Email"
+        android:hint="Username"
         android:layout_marginTop="5dp"
-        android:inputType="phone"
+        android:inputType="text"
         android:padding="10dp"
         android:textSize="17sp"
         android:textStyle="bold">
@@ -94,6 +94,7 @@
             android:textSize="15sp"
             android:gravity="center_vertical"
             android:textStyle="bold"
+            android:visibility="invisible"
             />
         <TextView
             android:id="@+id/login_asAdmin"
