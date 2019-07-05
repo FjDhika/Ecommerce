@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fa.ecommerce.Model.Users;
@@ -23,12 +24,13 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
     private EditText PhoneNumber, Password;
     private Button LoginBtn;
+    private TextView asAdmin,asMember;
     private CheckBox rememberMe;
     private ProgressDialog loadingBar;
-    private String ParentName= "Users";
+    private String ParentName= "users";
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
-    private Boolean saveLogin;
+    //private Boolean saveLogin;
 
 
     @Override
@@ -41,22 +43,44 @@ public class LoginActivity extends AppCompatActivity {
         LoginBtn = (Button) findViewById(R.id.login_Login);
         rememberMe = (CheckBox) findViewById(R.id.chk_rememberMe);
         loadingBar = new ProgressDialog(this);
+
+        asAdmin = (TextView) findViewById(R.id.login_asAdmin);
+        asMember = (TextView) findViewById(R.id.login_asMember);
+
         loginPreferences = getSharedPreferences("loginPrefs",MODE_PRIVATE);
         loginPrefsEditor = loginPreferences.edit();
 
-        saveLogin = loginPreferences.getBoolean("saveLogin",false);
-
+        //saveLogin = loginPreferences.getBoolean("saveLogin",false);
+        /*
         if(saveLogin){
             PhoneNumber.setText(loginPreferences.getString("PhoneNumber",""));
             Password.setText(loginPreferences.getString("Password",""));
             rememberMe.setChecked(true);
-        }
+        }*/
         LoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
 
             public void onClick(View view)
             {
                 LoginUser();
+            }
+        });
+        asAdmin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                ParentName = "Admins";
+                asMember.setVisibility(View.VISIBLE);
+                asAdmin.setVisibility(View.INVISIBLE);
+                LoginBtn.setText("Login As Admin");
+            }
+        });
+        asMember.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                ParentName="users";
+                asAdmin.setVisibility(View.VISIBLE);
+                asMember.setVisibility(View.INVISIBLE);
+                LoginBtn.setText("Login");
             }
         });
     }
@@ -77,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginPrefsEditor.putBoolean("saveLogin",true);
                 loginPrefsEditor.putString("PhoneNumber",Phone);
                 loginPrefsEditor.putString("Password",Pass);
+                loginPrefsEditor.putString("LoginAs",ParentName);
                 loginPrefsEditor.commit();
             }else{
                 loginPrefsEditor.clear();
@@ -91,25 +116,30 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void LogintoAccount(final String Phone, final String Pass){
+    private void LogintoAccount(final String username, final String Pass){
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
 
         RootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.child(ParentName).child(Phone).exists()){
-                    Users userdata = dataSnapshot.child(ParentName).child(Phone).getValue(Users.class);
+                if(dataSnapshot.child(ParentName).child(username).exists()){
+                    Users userdata = dataSnapshot.child(ParentName).child(username).getValue(Users.class);
 
-                    if(userdata.getTelepon().equals(Phone)){
+                    if(userdata.getUsername().equals(username)){
                         if(userdata.getPassword().equals(Pass)){
                             Toast.makeText(LoginActivity.this,"Login Success...", Toast.LENGTH_LONG).show();
                             loadingBar.dismiss();
 
-                            Intent intent = new Intent(LoginActivity.this,home_activity.class);
-                            startActivity(intent);
-                            finish();
-
+                            if(ParentName.equals("Admins")){
+                                Intent intent = new Intent(LoginActivity.this,AdminDasboadActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }else{
+                                Intent intent = new Intent(LoginActivity.this,home_activity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         }else{
                             Toast.makeText(LoginActivity.this,"Password Incorrect", Toast.LENGTH_LONG).show();
                             loadingBar.dismiss();

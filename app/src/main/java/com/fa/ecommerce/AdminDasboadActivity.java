@@ -37,9 +37,6 @@ public class AdminDasboadActivity extends AppCompatActivity {
         LogoutBtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginPrefsEditor.clear();
-                loginPrefsEditor.commit();
-
                 Intent intent = new Intent(AdminDasboadActivity.this,AdminCatActivity.class);
                 startActivity(intent);
                 finish();

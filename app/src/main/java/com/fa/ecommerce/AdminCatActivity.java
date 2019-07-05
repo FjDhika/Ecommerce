@@ -19,9 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminCatActivity extends AppCompatActivity {
-    ArrayList<String> list = new ArrayList<>();
+    List<String> list = new ArrayList<>();
+    List<String> list2 = new ArrayList<>();
     String selectedCategory;
 
     @Override
@@ -30,12 +32,15 @@ public class AdminCatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_cat);
         final Spinner chl=findViewById(R.id.chkb_listview);
 
-        list = getCategories();
-        String[] items=list.toArray(new String[list.size()]);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        chl.setAdapter(adapter);
+
+        list = getCategories(chl);
+        //list2.add(list.get(0).toString());
+        //list2.add("2");
+        //list2.add("3");
+        //String[] items={"1","2","3"};
+
+
         chl.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -49,8 +54,11 @@ public class AdminCatActivity extends AppCompatActivity {
             }
          });
     }
-    private ArrayList<String> getCategories(){
-        final ArrayList<String> items = new ArrayList<>();
+
+
+
+    private List<String> getCategories(final Spinner chl){
+        final List<String> items = new ArrayList<String>();
 
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
@@ -59,8 +67,12 @@ public class AdminCatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot:dataSnapshot.getChildren()){
-                    items.add( postSnapshot.getValue().toString());
+                    items.add( postSnapshot.getValue(String.class));
                 }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(AdminCatActivity.this,android.R.layout.simple_spinner_item,list);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                chl.setAdapter(adapter);
             }
 
             @Override
