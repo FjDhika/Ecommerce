@@ -178,7 +178,6 @@ public class AdminCatActivity extends AppCompatActivity {
     }
 
     private void SaveProductInfoToFirebase() {
-        Toast.makeText(AdminCatActivity.this,"Uploading data......",Toast.LENGTH_SHORT).show();
         HashMap<String, Object> productMap = new HashMap<>();
         productMap.put("pkey",productKey);
         productMap.put("pdate",saveCurrDate);
@@ -186,15 +185,15 @@ public class AdminCatActivity extends AppCompatActivity {
         productMap.put("pdescription",Desc);
         productMap.put("pimage",downloadImageUrl);
         productMap.put("pcategory",selectedCategory);
-        productMap.put("pprice",productHarga);
-        productMap.put("pname",productName);
+        productMap.put("pprice",Price);
+        productMap.put("pname",Name);
 
         productDatabaseRef.child(productKey).updateChildren(productMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        loadingBar.dismiss();
                         if(task.isSuccessful()){
-                            loadingBar.dismiss();
                             Toast.makeText(AdminCatActivity.this,"Product Added success",Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(AdminCatActivity.this,AdminDasboadActivity.class);
@@ -202,7 +201,6 @@ public class AdminCatActivity extends AppCompatActivity {
                             finish();
                         }
                         else{
-                            loadingBar.dismiss();
                             String message = task.getException().toString();
                             Toast.makeText(AdminCatActivity.this,"error" + message,Toast.LENGTH_SHORT).show();
                         }
