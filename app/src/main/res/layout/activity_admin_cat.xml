@@ -15,7 +15,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="27dp"
-            android:text="Categories"
+            android:text="Add New Product"
             android:textAlignment="center"
             android:textSize="28sp"
             android:textStyle="bold"
@@ -44,7 +44,8 @@
             android:layout_below="@id/id_produk"
             android:layout_marginTop="5dp"
             android:layout_centerHorizontal="true"
-            android:hint="Nama Product"/>
+            android:hint="Nama Product"
+            android:inputType="textMultiLine"/>
 
         <EditText
             android:id="@+id/harga_product"
@@ -63,7 +64,8 @@
             android:hint="Deskripsi product"
             android:gravity="top"
             android:layout_below="@id/harga_product"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:inputType="textMultiLine"/>
 
         <TextView
             android:id="@+id/txt_category"
@@ -74,7 +76,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:text="Category : "
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
         <Spinner
             android:id="@+id/chkb_listview"
             android:layout_width="wrap_content"
@@ -82,6 +85,22 @@
             android:layout_toRightOf="@id/txt_category"
             android:layout_alignBottom="@id/txt_category"
             android:layout_alignTop="@id/txt_category"/>
+
+        <Button
+            android:id="@+id/AddProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_category"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Add Product"
+            android:padding="17dp"
+            android:background="@drawable/buttons"
+            android:textColor="@android:color/white"
+            />
 
     </RelativeLayout>
 </ScrollView>
