@@ -133,11 +133,11 @@ public class AdminCatActivity extends AppCompatActivity {
 
         Calendar calendar = Calendar.getInstance();
 
-        SimpleDateFormat currDate = new SimpleDateFormat("DD MM YYYY");
+        SimpleDateFormat currDate = new SimpleDateFormat("dd-MM-yyyy");
         saveCurrDate = currDate.format(calendar.getTime());
 
         SimpleDateFormat currTime = new SimpleDateFormat("HH:MM:ss a");
-        saveCurrTime = currDate.format(calendar.getTime());
+        saveCurrTime = currTime.format(calendar.getTime());
 
         productKey = saveCurrDate + saveCurrTime;
 
@@ -178,28 +178,28 @@ public class AdminCatActivity extends AppCompatActivity {
     }
 
     private void SaveProductInfoToFirebase() {
-        HashMap<String,Object> productMap = new HashMap<>();
-        productMap.put("pid",productKey);
-        productMap.put("date",saveCurrDate);
-        productMap.put("time",saveCurrTime);
-        productMap.put("description",Desc);
+        Toast.makeText(AdminCatActivity.this,"Uploading data......",Toast.LENGTH_SHORT).show();
+        HashMap<String, Object> productMap = new HashMap<>();
+        productMap.put("pkey",productKey);
+        productMap.put("pdate",saveCurrDate);
+        productMap.put("ptime",saveCurrTime);
+        productMap.put("pdescription",Desc);
         productMap.put("pimage",downloadImageUrl);
-        productMap.put("category",selectedCategory);
-        productMap.put("price",productHarga);
-        productMap.put("name",productName);
+        productMap.put("pcategory",selectedCategory);
+        productMap.put("pprice",productHarga);
+        productMap.put("pname",productName);
 
         productDatabaseRef.child(productKey).updateChildren(productMap)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
+                            loadingBar.dismiss();
+                            Toast.makeText(AdminCatActivity.this,"Product Added success",Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(AdminCatActivity.this,AdminDasboadActivity.class);
                             startActivity(intent);
                             finish();
-
-                            loadingBar.dismiss();
-                            Toast.makeText(AdminCatActivity.this,"Product Added success",Toast.LENGTH_SHORT).show();
                         }
                         else{
                             loadingBar.dismiss();
