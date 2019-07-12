@@ -14,7 +14,6 @@
         <activity
             android:name=".home_activity"
             android:label="@string/title_activity_home_activity"></activity>
-        <activity android:name=".HomeActivity" />
         <activity android:name=".Register" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
