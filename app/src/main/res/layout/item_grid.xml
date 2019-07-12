@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal">
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginTop="20dp">
 
-        <ImageView
-            android:id="@+id/imaged"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="10dp"/>
-        <TextView
-            android:id="@+id/nmbarangs"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/borders" />
 
-        <TextView
-            android:id="@+id/descbarangs"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/borders" />
+    <ImageView
+        android:id="@+id/imaged"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+
+    <TextView
+        android:id="@+id/nmbarangs"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/borders" />
+
+    <TextView
+        android:id="@+id/descbarangs"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/borders" />
 
 
 </LinearLayout>
