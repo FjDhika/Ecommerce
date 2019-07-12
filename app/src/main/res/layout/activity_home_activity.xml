@@ -9,8 +9,7 @@
 
         <FrameLayout
             android:id="@+id/frameid"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            style="@style/layoutmm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

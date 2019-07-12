@@ -38,28 +38,23 @@
                 android:background="#ffffff">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/layoutmm"
                     android:src="@drawable/edel" />
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/layoutmm"
                     android:src="@drawable/mari" />
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/layoutmm"
                     android:src="@drawable/elesis" />
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/layoutmm"
                     android:src="@drawable/lire" />
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/layoutmm"
                     android:src="@drawable/arme" />
 
             </ViewFlipper>

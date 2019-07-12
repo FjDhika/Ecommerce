@@ -67,28 +67,28 @@ public class homefragment extends Fragment {
                 case 0:
                     barang.nmbarang = "Elesis";
                     barang.descbarang = "Red Knight";
-                    barang.fotobarang = R.drawable.elesis;
+                    barang.fotobarang = R.drawable.ic_launcher_background;
                     mylist.add(barang);
                     break;
 
                 case 1:
                     barang.nmbarang = "Arme";
                     barang.descbarang = "Violet Mage";
-                    barang.fotobarang = R.drawable.arme;
+                    barang.fotobarang = R.drawable.ic_launcher_background;
                     mylist.add(barang);
                     break;
 
                 case 2:
                     barang.nmbarang = "Edel";
                     barang.descbarang = "Heir Of Frost Family";
-                    barang.fotobarang = R.drawable.edel;
+                    barang.fotobarang = R.drawable.ic_launcher_background;
                     mylist.add(barang);
                     break;
 
                 case 3:
                     barang.nmbarang = "Lire";
                     barang.descbarang = "Elven Ranger";
-                    barang.fotobarang = R.drawable.lire;
+                    barang.fotobarang = R.drawable.ic_launcher_background;
                     mylist.add(barang);
                     break;
 
@@ -102,21 +102,21 @@ public class homefragment extends Fragment {
                 case 5:
                     barang.nmbarang = "Mari";
                     barang.descbarang = "Last Kounat";
-                    barang.fotobarang = R.drawable.mari;
+                    barang.fotobarang = R.drawable.ic_launcher_background;
                     mylist.add(barang);
                     break;
 
                 case 6:
                     barang.nmbarang = "Ronan";
                     barang.descbarang = "Serdin's Knight";
-                    barang.fotobarang = R.drawable.ronan;
+                    barang.fotobarang = R.drawable.ic_launcher_background;
                     mylist.add(barang);
                     break;
 
                 case 7:
                     barang.nmbarang = "Ryan";
                     barang.descbarang = "Forest Druid";
-                    barang.fotobarang = R.drawable.ryan;
+                    barang.fotobarang = R.drawable.ic_launcher_background;
                     mylist.add(barang);
                     break;
             }
