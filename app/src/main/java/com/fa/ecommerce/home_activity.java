@@ -55,7 +55,6 @@ public class home_activity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         loadfragment(new homefragment());
 
-
     }
 
     public void loadfragment(Fragment fragment)

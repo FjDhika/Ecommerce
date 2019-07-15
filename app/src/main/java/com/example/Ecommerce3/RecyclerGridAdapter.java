@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fa.ecommerce.Model.barang;
 import com.fa.ecommerce.R;
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -46,9 +47,9 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         MyHolder myholder = (MyHolder) holder;
         mbarang = mlist.get(position);
 
-        myholder.nmbarang.setText(mbarang.nmbarang);
-        myholder.descbarang.setText(mbarang.descbarang);
-        myholder.fotobarang.setImageResource(mbarang.fotobarang);
+        myholder.nmbarang.setText(mbarang.pname);
+        myholder.descbarang.setText(mbarang.pprice);
+        Picasso.get().load(mbarang.getPimage()).into(myholder.fotobarang);
 
     }
 

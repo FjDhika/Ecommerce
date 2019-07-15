@@ -109,7 +109,7 @@ public class AdminCatActivity extends AppCompatActivity {
     private void ValidateData() {
         Desc = productDesc.getText().toString();
         Name = productName.getText().toString();
-        Price = productName.getText().toString();
+        Price = productHarga.getText().toString();
 
         if(ImageUri == null){
             Toast.makeText(this,"Product Image is Empty",Toast.LENGTH_SHORT).show();

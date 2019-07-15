@@ -5,29 +5,36 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+//import androidx.fragment.app.Fragment;
+//import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.*;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
+//import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.*;
+import androidx.fragment.app.Fragment;
 
+import com.example.Ecommerce3.Interface.MyCallback;
 import com.example.Ecommerce3.RecyclerGridAdapter;
 import com.fa.ecommerce.Model.barang;
-import com.google.android.material.tabs.TabLayout;
+//import com.google.android.material.tabs.TabLayout;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.material.tabs.*;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class homefragment extends Fragment {
+    DatabaseReference productref;
 
-    List<barang> mylist = new ArrayList<>();
-    RecyclerView rcvw;
     RecyclerGridAdapter myAdapterGrid;
-
     private ViewPager viewPager;
     private slideadapter sldadapter;
 
@@ -47,17 +54,21 @@ public class homefragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.homefragments, container, false);
+        productref = FirebaseDatabase.getInstance().getReference();
 
         ViewPager viewPager = view.findViewById(R.id.viewpager);
-        RecyclerView rcvw = view.findViewById(R.id.recycler);
+        final RecyclerView rcvw = view.findViewById(R.id.recycler);
 
-        populateList();
+        populateList(new MyCallback() {
+            @Override
+            public void onCallback(List<barang> value) {
+                myAdapterGrid = new RecyclerGridAdapter(getActivity(), value);
+                rcvw.setAdapter(myAdapterGrid);
 
-        myAdapterGrid = new RecyclerGridAdapter(getActivity(), mylist);
+                rcvw.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            }
+        });
 
-        rcvw.setAdapter(myAdapterGrid);
-
-        rcvw.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         sldadapter = new slideadapter(getActivity());
 
         viewPager.setAdapter(sldadapter);
@@ -68,76 +79,31 @@ public class homefragment extends Fragment {
 
     }
 
-    
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
 
-    public void populateList() {
-        for (int i = 0; i < 8; i++) {
-            barang barang = new barang();
+    public void populateList(final MyCallback myCallback) {
+        productref.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<barang> mylist = new ArrayList<>();
 
-            switch (i) {
-                case 0:
-                    barang.nmbarang = "Elesis";
-                    barang.descbarang = "Red Knight";
-                    barang.fotobarang = R.drawable.edel;
-                    mylist.add(barang);
-                    break;
-
-                case 1:
-                    barang.nmbarang = "Arme";
-                    barang.descbarang = "Violet Mage";
-                    barang.fotobarang = R.drawable.rin;
-                    mylist.add(barang);
-                    break;
-
-                case 2:
-                    barang.nmbarang = "Edel";
-                    barang.descbarang = "Heir Of Frost Family";
-                    barang.fotobarang = R.drawable.mari;
-                    mylist.add(barang);
-                    break;
-
-                case 3:
-                    barang.nmbarang = "Lire";
-                    barang.descbarang = "Elven Ranger";
-                    barang.fotobarang = R.drawable.sieg;
-                    mylist.add(barang);
-                    break;
-
-                case 4:
-                    barang.nmbarang = "kopi";
-                    barang.descbarang = "uenak anjay";
-                    barang.fotobarang = R.mipmap.ic_launcher;
-                    mylist.add(barang);
-                    break;
-
-                case 5:
-                    barang.nmbarang = "Mari";
-                    barang.descbarang = "Last Kounat";
-                    barang.fotobarang = R.drawable.rin;
-                    mylist.add(barang);
-                    break;
-
-                case 6:
-                    barang.nmbarang = "Ronan";
-                    barang.descbarang = "Serdin's Knight";
-                    barang.fotobarang = R.drawable.mari;
-                    mylist.add(barang);
-                    break;
-
-                case 7:
-                    barang.nmbarang = "Ryan";
-                    barang.descbarang = "Forest Druid";
-                    barang.fotobarang = R.drawable.sieg;
-                    mylist.add(barang);
-                    break;
+                for (DataSnapshot dataProduct:dataSnapshot.getChildren()){
+                    barang dataBarang = dataProduct.getValue(barang.class);
+                    mylist.add(dataBarang);
+                }
+                myCallback.onCallback(mylist);
             }
-        }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
-
-
 }
