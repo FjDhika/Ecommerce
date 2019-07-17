@@ -9,24 +9,24 @@
     <ImageView
         android:id="@+id/slideimg"
         android:layout_width="370dp"
-        android:layout_height="200dp" />
+        android:layout_height="100dp" />
 
     <TextView
         android:id="@+id/titlesld"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Title"
-        android:textSize="30sp"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:textColor="#000000"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtdesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Descriptions"
+        android:layout_marginTop="10dp"
+        android:textColor="#000000"
         android:textAlignment="center"
-        android:textSize="17sp" />
+        android:textSize="12sp" />
 
 </LinearLayout>

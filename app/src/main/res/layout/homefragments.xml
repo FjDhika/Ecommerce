@@ -28,18 +28,23 @@
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpager"
-            style="@style/layout"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="200dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp">
 
 
         </androidx.viewpager.widget.ViewPager>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:visibility="visible">
 
         </com.google.android.material.tabs.TabLayout>
@@ -57,14 +62,15 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
+                android:fadeScrollbars="true"
+                android:scrollbars="vertical"
                 android:visibility="visible"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager">
 
             </androidx.recyclerview.widget.RecyclerView>
 
         </FrameLayout>
-
 
     </LinearLayout>
 </ScrollView>

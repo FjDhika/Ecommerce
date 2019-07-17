@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +21,7 @@ import com.example.Ecommerce3.Interface.MyCallback;
 import com.example.Ecommerce3.RecyclerGridAdapter;
 import com.fa.ecommerce.Model.barang;
 //import com.google.android.material.tabs.TabLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
+//import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.tabs.*;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class homefragment extends Fragment {
@@ -37,8 +39,6 @@ public class homefragment extends Fragment {
     RecyclerGridAdapter myAdapterGrid;
     private ViewPager viewPager;
     private slideadapter sldadapter;
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -65,7 +65,11 @@ public class homefragment extends Fragment {
                 myAdapterGrid = new RecyclerGridAdapter(getActivity(), value);
                 rcvw.setAdapter(myAdapterGrid);
 
-                rcvw.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
+
+                rcvw.setLayoutManager(gridLayoutManager);
+
             }
         });
 
@@ -107,3 +111,4 @@ public class homefragment extends Fragment {
 
     }
 }
+
