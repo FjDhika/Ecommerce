@@ -15,6 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fa.ecommerce.Model.Users;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText PhoneNumber, Password;
+    private EditText Email, Password;
     private Button LoginBtn;
     private TextView asAdmin,asMember;
     private CheckBox rememberMe;
@@ -30,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private String ParentName= "users";
     private SharedPreferences loginPreferences;
     private SharedPreferences.Editor loginPrefsEditor;
+    private FirebaseAuth auth;
     //private Boolean saveLogin;
 
 
@@ -37,8 +42,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        auth = FirebaseAuth.getInstance();
 
-        PhoneNumber = (EditText) findViewById(R.id.login_edit_number);
+        Email = (EditText) findViewById(R.id.login_edit_number);
         Password = (EditText) findViewById(R.id.login_edit_password);
         LoginBtn = (Button) findViewById(R.id.login_Login);
         rememberMe = (CheckBox) findViewById(R.id.chk_rememberMe);
@@ -47,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         asAdmin = (TextView) findViewById(R.id.login_asAdmin);
         asMember = (TextView) findViewById(R.id.login_asMember);
 
-        loginPreferences = getSharedPreferences("loginPrefs",MODE_PRIVATE);
-        loginPrefsEditor = loginPreferences.edit();
+        //loginPreferences = getSharedPreferences("loginPrefs",MODE_PRIVATE);
+        //loginPrefsEditor = loginPreferences.edit();
 
         //saveLogin = loginPreferences.getBoolean("saveLogin",false);
         /*
@@ -64,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             {
                 LoginUser();
             }
-        });
+        });/*
         asAdmin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -82,9 +88,42 @@ public class LoginActivity extends AppCompatActivity {
                 asMember.setVisibility(View.INVISIBLE);
                 LoginBtn.setText("Login");
             }
-        });
+        });*/
     }
 
+    private void LoginUser(){
+
+        String email = Email.getText().toString();
+        String Pass = Password.getText().toString();
+        if(checkForm(email,Pass)){
+            auth.signInWithEmailAndPassword(email,Pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        Intent intent = new Intent(LoginActivity.this,home_activity.class);
+                        startActivity(intent);
+                        finish();
+                    }else {
+                        Toast.makeText(LoginActivity.this,"Password Incorrect", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private boolean checkForm(String email, String Pass){
+        boolean hasil = true;
+        if (TextUtils.isEmpty(email)){
+            Toast.makeText(this,"Please input phone number",Toast.LENGTH_LONG).show();
+            hasil = false;
+        }
+        else if (TextUtils.isEmpty(Pass)){
+            Toast.makeText(this,"Please input your Password",Toast.LENGTH_LONG).show();
+            hasil = false;
+        }
+        return hasil;
+    }
+/*
     private void LoginUser(){
         String Phone = PhoneNumber.getText().toString();
         String Pass = Password.getText().toString();
@@ -157,5 +196,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 }

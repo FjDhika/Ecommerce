@@ -12,8 +12,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fa.ecommerce.Model.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,11 +30,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     private EditText InputName, InputUN, InputPass, InputPhone, InputEmail, InputLocation, CP;
     private ProgressDialog pd;
+    private FirebaseAuth auth;
+    private FirebaseUser newUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        auth = FirebaseAuth.getInstance();
 
         InputName = findViewById(R.id.Name);
         InputPass = findViewById(R.id.pass);
@@ -76,7 +84,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             InputName.setError("Tolong Masukkan No Telp");
         } else if (TextUtils.isEmpty(alamat)) {
             InputName.setError("Tolong Masukkan Alamat");
-        } else {
+        } else if(!TextUtils.equals(pass,confpass)){
+            CP.setError("Password tidak sama");
+        }else {
             pd.setTitle("Create Account");
             pd.setMessage("Creating Account ...");
             pd.setCanceledOnTouchOutside(false);
@@ -87,71 +97,58 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+
     private void validateeverything(final String nama, final String pass, final String confpass, final String Email, final String UN, final String alamat, final String telp) {
+        final Users user = new Users(nama,telp,pass,UN,alamat,Email,confpass);
+
+        auth.createUserWithEmailAndPassword(Email,pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isComplete()){
+                            auth.signInWithEmailAndPassword(Email,pass);
+                            WriteToDB(user);
+                        }else{
+                            pd.dismiss();
+                            Toast.makeText(Register.this, "Commit Failed Try Again And Check Your Network", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
+
+    private void WriteToDB(Users dataUser) {
 
         final DatabaseReference Rootref;
         Rootref = FirebaseDatabase.getInstance().getReference();
-        Rootref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.child("users").child(telp).exists() && pass.equals(confpass) && !dataSnapshot.child("users").child(Email).exists() && !dataSnapshot.child("users").child(UN).exists()) {
-                    HashMap<String, Object> Userdatamap = new HashMap<>();
-                    Userdatamap.put("nama", nama);
-                    Userdatamap.put("password", pass);
-                    Userdatamap.put("username", UN);
-                    Userdatamap.put("email", Email);
-                    Userdatamap.put("alamat", alamat);
-                    Userdatamap.put("telepon", telp);
-                    Rootref.child("users").child(UN).updateChildren(Userdatamap)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
+        newUser = auth.getCurrentUser();
 
-                                    if (task.isSuccessful()) {
-                                        Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
-                                        pd.dismiss();
+        HashMap<String, Object> Userdatamap = new HashMap<>();
+        Userdatamap.put("nama", dataUser.getNama());
+        Userdatamap.put("password", dataUser.getPassword());
+        Userdatamap.put("username", dataUser.getUsername());
+        Userdatamap.put("email", dataUser.getEmail());
+        Userdatamap.put("alamat", dataUser.getAlamat());
+        Userdatamap.put("telepon", dataUser.getTelepon());
 
-                                        Intent movetoregis = new Intent(Register.this, LoginActivity.class);
-                                        startActivity(movetoregis);
-                                    } else {
-                                        pd.dismiss();
-                                        Toast.makeText(Register.this, "Commit Failed Try Again And Check Your Network", Toast.LENGTH_SHORT).show();
-                                    }
+        Rootref.child("users").child(newUser.getUid().toString()).updateChildren(Userdatamap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
 
-                                }
-                            });
-                } else {
+                        if (task.isSuccessful()) {
+                            pd.dismiss();
+                            Toast.makeText(Register.this, "Account Created", Toast.LENGTH_SHORT).show();
 
-                    if (dataSnapshot.child("users").child(telp).exists()) {
 
-                        Toast.makeText(Register.this, "This " + telp + " Already Exist", Toast.LENGTH_SHORT).show();
-                        pd.dismiss();
-                        Toast.makeText(Register.this, "Please Use Another Phone Number", Toast.LENGTH_SHORT).show();
+                            Intent movetoregis = new Intent(Register.this, home_activity.class);
+                            startActivity(movetoregis);
+                            finish();
+                        } else {
+                            pd.dismiss();
+                            Toast.makeText(Register.this, "Commit Failed Try Again And Check Your Network", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
-                    if (!pass.equals(confpass)) {
-                        Toast.makeText(Register.this, "Password didn't match ...", Toast.LENGTH_SHORT).show();
-                        pd.dismiss();
-                    }
-
-                    if (dataSnapshot.child("users").child(UN).exists()) {
-                        Toast.makeText(Register.this, "Username Already Exist ...", Toast.LENGTH_SHORT).show();
-                        pd.dismiss();
-                    }
-
-                    if (dataSnapshot.child("users").child(Email).exists()) {
-                        Toast.makeText(Register.this, "Email Already Exist ...", Toast.LENGTH_SHORT).show();
-                        pd.dismiss();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+                });
     }
 }

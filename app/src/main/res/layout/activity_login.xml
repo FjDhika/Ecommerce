@@ -22,7 +22,7 @@
         android:layout_centerHorizontal="true"
         android:hint="Username"
         android:layout_marginTop="5dp"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:padding="10dp"
         android:textSize="17sp"
         android:textStyle="bold">

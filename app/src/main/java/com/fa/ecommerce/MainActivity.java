@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fa.ecommerce.Model.Users;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
     private Button LoginBtn,SignUpBtn;
     private SharedPreferences loginPreferences;
-    private Boolean saveLogin;
+    //private Boolean saveLogin;
     private ProgressDialog loadingBar;
+    private FirebaseAuth auth;
+    private FirebaseUser UserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,23 +45,31 @@ public class MainActivity extends AppCompatActivity {
 
         LoginBtn = findViewById(R.id.signin_btn);
         SignUpBtn = findViewById(R.id.signup_btn);
-
-        loginPreferences = getSharedPreferences("loginPrefs",MODE_PRIVATE);
-        saveLogin = loginPreferences.getBoolean("saveLogin",false);
+        auth = FirebaseAuth.getInstance();
+        UserInfo = auth.getCurrentUser();
+        //loginPreferences = getSharedPreferences("loginPrefs",MODE_PRIVATE);
+        //saveLogin = loginPreferences.getBoolean("saveLogin",false);
         loadingBar = new ProgressDialog(this);
 
-        final String UserName = loginPreferences.getString("PhoneNumber","");
-        final String Password = loginPreferences.getString("Password","");
-        final String ParentName = loginPreferences.getString("LoginAs","");
+        //final String UserName = loginPreferences.getString("PhoneNumber","");
+        //final String Password = loginPreferences.getString("Password","");
+        //final String ParentName = loginPreferences.getString("LoginAs","");
 
-        if(saveLogin) {
+        if(UserInfo != null) {
 
             loadingBar.setTitle("Login");
             loadingBar.setMessage("Please Wait...");
             loadingBar.setCanceledOnTouchOutside(false);
             loadingBar.show();
 
-            LogintoAccount(UserName, Password, ParentName);
+            Intent intent = new Intent(MainActivity.this, home_activity.class);
+            startActivity(intent);
+
+            Toast.makeText(MainActivity.this, "Login Success...", Toast.LENGTH_LONG).show();
+            loadingBar.dismiss();
+            finish();
+
+            //LogintoAccount(UserName, Password, ParentName);
         }
 
         LoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+    /*
     private void LogintoAccount(final String username, final String Pass,final String ParentName) {
         final DatabaseReference RootRef;
         RootRef = FirebaseDatabase.getInstance().getReference();
@@ -120,6 +132,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
 }

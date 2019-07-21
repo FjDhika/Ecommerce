@@ -52,15 +52,15 @@ public class notiffragments extends Fragment {
         user = auth.getCurrentUser();
 
         reference = FirebaseDatabase.getInstance().getReference("users");
-       // userid = user.getUid();
+        userid = user.getUid();
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                String username = dataSnapshot.child("mavis").child("username").getValue().toString();
-                String password = dataSnapshot.child("mavis").child("password").getValue().toString();
-                String email = dataSnapshot.child("mavis").child("email").getValue().toString();
+                String username = dataSnapshot.child(userid).child("username").getValue().toString();
+                String password = dataSnapshot.child(userid).child("password").getValue().toString();
+                String email = dataSnapshot.child(userid).child("email").getValue().toString();
 
                usernama.setText("USERNAME : " + username);
                passwordo.setText("PASSWORD : "+ password);
